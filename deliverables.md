@@ -16,9 +16,17 @@ De manière générale, on voudrait 1 session par client user et que cet id soit
 
 ### 3
 
+![Sequence diagram](captures/sequence_diagram.png)
+
 ### 4
 
+![Summary report](captures/Task1_point4.png)
+
 ### 5
+
+![Sequence diagram](captures/sequence_diagram_without_s1.png)
+
+En refaisant le même scénario JMeter on aperçoit que le même nombre de requêtes est fait, mais qu'elles sont toutes redirigées vers s2. On a également pu constater qu'avec un seul serveur, ce test a pris bien plus de temps à se terminer, ce qui nous semble logique.
 
 ## Task 2: Sticky sessions
 
@@ -26,6 +34,11 @@ De manière générale, on voudrait 1 session par client user et que cet id soit
 
 ## Task 3: Drain mode
 
+
+
 ## Task 4: Round robin in degraded mode
 
+
+
 ## Task 5: Balancing strategies
+
