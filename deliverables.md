@@ -58,17 +58,29 @@ backend nodes
 
 ### 3
 
+![Sticky session](captures/Task2_point2_3.png)  
 
+Comme on peut le constater, à chaque rafraîchissement on garde la même session sur le même serveur. C'est le comportement désiré. On observe également que l'on reçoit bien notre cookie `SERVERID` qui à pour valeur `s2`.
 
 ### 4
 
+Il se passe exactement ce que nous avons prédit au point 2.1: Après une première requête faite par le navigateur, le navigateur se voit attribué un cookie avec le `SERVERID` de `s2` dans ce cas, puis à chaque nouvelle ce cookie est utilisé pour accéder à `s2`.  
 
+![Sequence diagram SERVERID](captures/sequence_diagram_SERVERID.png)
+
+Le test avec les deux navigateurs différents nous montre que la deuxième fenêtre se comporte comme un nouvel utilisateur et accède à l'autre serveur.
+
+![Sticky session on two windows](captures/Task2_point2_4.png)
 
 ### 5
 
+![Summary report sticky session JMeter](captures/Task2_point2_5_1.png)
 
+![Summary report sticky session JMeter](captures/Task2_point2_5_2.png)
 
 ### 6
+
+![Summary report sticky session JMeter](captures/Task2_point2_6.png)
 
 ## Task 3: Drain mode
 
