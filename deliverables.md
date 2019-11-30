@@ -53,7 +53,11 @@ backend nodes
     # Define the sticky session policy
     # http://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4-cookie
     cookie SERVERID insert indirect nocache
-    ...
+
+    # Define the list of nodes to be in the balancing mechanism
+    # http://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4-server
+    server s1 ${WEBAPP_1_IP}:3000 check cookie s1
+    server s2 ${WEBAPP_2_IP}:3000 check cookie s2
 ```
 
 ### 3
