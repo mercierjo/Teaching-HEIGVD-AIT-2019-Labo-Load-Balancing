@@ -95,7 +95,41 @@ Après avoir changé le nombre de threads dans notre ThreadGroup (et donc d'êtr
 
 ## Task 4: Round robin in degraded mode
 
+### 1
 
+![Summary report normal behavior](captures/Task4_point1.jpg)
+
+Comme on pouvait s'y attendre, on constate que les deux serveurs ont la même charge
+
+### 2
+
+![Summary report 250ms delay](captures/Task4_point2.jpg)
+
+Avec 250ms de délai, la charge est encore également séparée, mais les requêtes envoyées vers s1 prennent enormément de temps, comme on peut le constater avec ce rapport encore en cours. Le throughput de s2 est rapide, alors que le throughput de s1 est très bas.
+
+### 3
+
+![Summary report 2500ms delay](captures/Task4_point3.jpg)
+
+Avec 2500ms de délai, le proxy reconnaît que s1 n'est pas en état de procéder les requêtes et envoie donc toutes les requêtes, sauf la première vers s1, à s2, le comportement disfonctionnel de s1 est donc reconnu et s2 s'occupe des requêtes.
+
+### 4
+
+Nous n'avons pas observé d'erreurs dans nos rapports JMeter étant donné que le problème ne se trouve pas au niveau des requêtes elles-mêmes, mais qu'on simule un comportement lent/disfonctionnel de la part de s1 : HAProxy fait simplement le boulot de load-balancer et, en fonction des paramètres que nous avons mis en place, décide s'il doit envoyer les requêtes vers un serveur plus rapide ou pas.
+
+### 5
+
+![Summary report 250ms delay s1 weight 2 s2 weight 1](captures/Task4_point5.jpg)
+
+### 6
+
+![Summary report 250ms delay s1 weight 2 s2 weight 1 cookies not kept](captures/Task4_point6.jpg)
+
+Première observation : les poids de serveurs sont respéctés. En effet, avec un poids de 2 pour s1 et un poids de 1 pour s2 et donc un poids total de 3, 2/3 des requêtes ont été acheminées vers s1 et le 1/3 restant vers s2. On peut également constater en regardant la suite de GET suivantes :
+
+![211-211-211-...](captures/Task4_point6_2.jpg)
+
+la suite de requêtes est exactement donnée par les poids de serveurs, ce qui veut dire qu'avant de pouvoir envoyer ses requêtes à s2, HAProxy doit d'abord avoir la réponse de s1, ce qui explique le fait que le throughput de s2 soit la moïtié de celui d's1 alors qu'il ne présente pas de délai.
 
 ## Task 5: Balancing strategies
 
