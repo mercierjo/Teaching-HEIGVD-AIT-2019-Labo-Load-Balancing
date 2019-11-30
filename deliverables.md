@@ -99,3 +99,43 @@ Après avoir changé le nombre de threads dans notre ThreadGroup (et donc d'êtr
 
 ## Task 5: Balancing strategies
 
+### 1
+
+![Interface d'admin](captures/Task3_point1.png) 
+
+Le noeud `s2` répond à nos requêtes sur le navigateur.
+
+### 2
+
+Commande:
+```
+set server nodes/s2 state drain
+```
+
+Screenshot:
+
+![Interface d'admin s2 drain mode](captures/Task3_point2.png) 
+
+### 3
+
+Nous restons sur le même noeud, parce que nous avons initié la session avant que le noeud `s2` passe en mode DRAIN. Par conséquent lors du prochaine établissement avec le noeud `s2`, nous devrions avoir `s1` qui prend la relève.
+
+### 4
+
+Nous avons établit une session avec le noeud `s1`. Cela s'est produit car nous avons une politique round robin sur le proxy.
+
+### 5
+
+On établit des nouvelles sessions qu'avec le noeud `s1`.
+
+### 6
+
+![Back to normal](captures/Task3_point6.png)  
+
+Nous revenons à une configuration standard où le proxy applique une politique round robin pour dispatcher les requêtes.
+
+### 7
+
+![s2 has a problem](captures/Task3_point7.png)  
+
+Toutes les requêtes sont redirigées sur le noeud `s1`.
