@@ -46,10 +46,9 @@ En raison de la simplicité de l'affichage, on a choisi d'implémenter le cookie
 
 ### 2
 
-Nous avons choisi d'utiliser la méthode avec le NODESESSID. Dans la rubrique backend du fichier `haproxy.cfg` nous avons ajouté la ligne:
+Nous avons choisi d'utiliser la méthode avec le SERVERID. Dans la rubrique backend du fichier `haproxy.cfg` nous avons ajouté la ligne:
 ```cfg
 backend nodes
-    ...
     # Define the sticky session policy
     # http://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4-cookie
     cookie SERVERID insert indirect nocache
@@ -80,9 +79,13 @@ Le test avec les deux navigateurs différents nous montre que la deuxième fenê
 
 ![Summary report sticky session JMeter](captures/Task2_point2_5_1.png)
 
+Comme on peut le constater sur cette screenshot, notre thread (utilisateur) accède constamment au même serveur pour nos requêtes avec le même cookie SERVERID, ce qui est juste et différent de ce qu'on a vu au point 1.
+
 ![Summary report sticky session JMeter](captures/Task2_point2_5_2.png)
 
 ### 6
+
+Après avoir changé le nombre de threads dans notre ThreadGroup (et donc d'être passé de 1 à 2 'utilisateurs'), on peut observer avec la screenshot suivante que ces derniers accèdent effectivement à leur serveur respectif, défini dans leur cookie SERVERID.
 
 ![Summary report sticky session JMeter](captures/Task2_point2_6.png)
 
