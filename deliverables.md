@@ -30,7 +30,22 @@ En refaisant le même scénario JMeter on aperçoit que le même nombre de requ�
 
 ## Task 2: Sticky sessions
 
-### 2 
+### 1
+
+Les deux méthodes permettant au load-balancer de créer un cookie par session sont gérées dans le fichier de config (comme on le verra dans un instant), c'est simplement la forme de ce cookie qui change.
+
+Pour le cookie géré par HAProxy, la forme de ce dernier est relativement propre : il prend la forme SERVERID=s1, 's1' étant le nom du serveur dans HAProxy.
+
+![Sequence diagram SERVERID](captures/sequence_diagram_SERVERID.png)
+
+Pour le cookie géré par l'application, HAProxy doit traduire ce dernier du browser au serveur et inversément. On peut observer ce changement dans le schéma suivant:
+
+![Sequence diagram NODESESSID](captures/sequence_diagram_NODESESSID.png)
+
+En raison de la simplicité de l'affichage, on a choisi d'implémenter le cookie géré par HAProxy.
+
+### 2
+
 Nous avons choisi d'utiliser la méthode avec le NODESESSID. Dans la rubrique backend du fichier `haproxy.cfg` nous avons ajouté la ligne:
 ```cfg
 backend nodes
@@ -40,6 +55,20 @@ backend nodes
     cookie SERVERID insert indirect nocache
     ...
 ```
+
+### 3
+
+
+
+### 4
+
+
+
+### 5
+
+
+
+### 6
 
 ## Task 3: Drain mode
 
