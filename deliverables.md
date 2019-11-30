@@ -30,7 +30,16 @@ En refaisant le même scénario JMeter on aperçoit que le même nombre de requ�
 
 ## Task 2: Sticky sessions
 
-
+### 2 
+Nous avons choisi d'utiliser la méthode avec le NODESESSID. Dans la rubrique backend du fichier `haproxy.cfg` nous avons ajouté la ligne:
+```cfg
+backend nodes
+    ...
+    # Define the sticky session policy
+    # http://cbonte.github.io/haproxy-dconv/configuration-1.5.html#4-cookie
+    cookie SERVERID insert indirect nocache
+    ...
+```
 
 ## Task 3: Drain mode
 
