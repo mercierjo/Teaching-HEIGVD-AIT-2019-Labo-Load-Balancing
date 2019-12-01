@@ -171,3 +171,73 @@ Première observation : les poids de serveurs sont respéctés. En effet, avec u
 la suite de requêtes est exactement donnée par les poids de serveurs, ce qui veut dire qu'avant de pouvoir envoyer ses requêtes à s2, HAProxy doit d'abord avoir la réponse de s1, ce qui explique le fait que le throughput de s2 soit la moïtié de celui d's1 alors qu'il ne présente pas de délai.
 
 ## Task 5: Balancing strategies
+
+### 5.1
+
+#### leastconn
+
+Nous avons choisi cette stratégie car nous avons constaté dans la documentation que cet algorithme n'est pas adapté pour des connexions courtes comme HTTP. On devrait pouvoir le constater lors de nos tests.
+
+#### first
+
+Nous avons choisi cette startégie car nous la trouvons relativement simple et nous pouvons selon la documentation prédire que nous tomberons toujours sur le même serveur, sauf si ce dernier est occupé, dans quel cas nous passerons sur le deuxième.
+
+### 5.2
+
+#### leastconn
+
+Configuration :
+```
+...
+# Define the balancing policy
+# http://cbonte.github.io/haproxy-dconv/configuration-1.5.html#balance
+balance leastconn
+...
+```
+
+Clear cookies:
+
+![2 users leastconn clear cookie](captures/Task5_leastconn_cookie_clear.png)
+
+On a fait un test avec 10 utilisateurs plutôt que 2 afin de voir si on observait une différence.
+
+![10 users leastconn clear cookie](captures/Task5_leastconn_cookie_clear_10users.png)
+
+No clear cookies:
+
+![2 users leastconn no clear cookie](captures/Task5_leastconn_cookie_noclear.png)
+
+On a fait un test avec 10 utilisateurs plutôt que 2 afin de voir si on observait une différence.
+
+![10 users leastconn no clear cookie](captures/Task5_leastconn_cookie_noclear_10users.png)
+
+#### first
+
+Configuration :
+```
+...
+# Define the balancing policy
+# http://cbonte.github.io/haproxy-dconv/configuration-1.5.html#balance
+balance first
+...
+```
+
+Clear cookies:
+
+![2 users first clear cookie](captures/Task5_first_cookie_clear.png)
+
+On a fait un test avec 10 utilisateurs plutôt que 2 afin de voir si on observait une différence.
+
+![10 users first clear cookie](captures/Task5_first_cookie_clear_10users.png)
+
+No clear cookies:
+
+![2 users first no clear cookie](captures/Task5_first_cookie_noclear.png)
+
+On a fait un test avec 10 utilisateurs plutôt que 2 afin de voir si on observait une différence.
+
+![10 users first no clear cookie](captures/Task5_first_cookie_noclear_10users.png)
+
+### 5.3 Observation
+
+En clear cookie, `lastconn` est plus rapide que `first` alors qu'en no clear `first` est plus rapide. Cependant, lors d'une stratégie `first` seul s1 répond aux requêtes. Nous nous sommes intéressés de refaire les tests avec `roundrobin` et avons pu observer (on a pas sauvegardé les résultats) qu'avec notre scénario avec deux ou dix utilisateurs, on se trouvait au même niveau que l'algorithme `first` mais légérement mieux. En considérant que `roundrobin` partage le load systématiquement, cela nous semble l'algorithme le plus adapté que ceux testés.
